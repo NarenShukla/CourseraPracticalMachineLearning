@@ -3,7 +3,7 @@ output: html_document
 ---
 
 ## Machine Learning Project : Predicting Wellness factor of Human Activity Recognition research 
-#### By : Narendra S. Shukla (September '2015)
+#### By : Narendra S. Shukla (September 2015)
 
 ### Executive Summary : 
 Using devices such as **Jawbone Up, Nike FuelBand, and Fitbit** it is now possible to collect a large amount of data about personal activity. Often, the emphasis is on **how** much of a particular activity is done, rather than **how well** it is done. In this exercise, 6 young health participants were asked to perform one set of 10 repetitions of the Unilateral Dumbbell Biceps Curl in five different fashions: exactly according to the specification **(Class A)**, throwing the elbows to the front **(Class B)**, lifting the dumbbell only halfway **(Class C)**, lowering the dumbbell only halfway **(Class D)** and throwing the hips to the front **(Class E)**. The excercise information is captured as **19622** observations of **160** variables. Our objective is to **predict the manner** in which they did the exercise
@@ -41,7 +41,7 @@ qplot(roll_belt, pitch_forearm, colour=classe, data=trainingNew, main="Figure 1 
 
 ```
 
-We notice that the decision boundary is highly **Non-Linear**. So, when we run SVM, as shown below, we shall use "Radial" kernel. 
+We notice that the decision boundary is highly **Non-Linear**. So, when we run SVM, as shown below, we shall use **Radial** kernel. 
 
 ### Model Training, Prediction Accuracy, Out of Sample Error
 
@@ -49,10 +49,10 @@ Now we start applying models to training data. We shall apply 6 models.
 
 1. **Single Tree Model :** Easy to explain. Better graphical display and interpretability. Sometimes lack predictive accuracy. May overfit training data
 2. **Single Tree Model with Repeated Cross-Validation :** Provide better Bias-Variance Trde-Off. Provide reduced Test Error Rate. 
-3. **Linear Discriminant Analysis :** Assumes Multivariate Gaussian distribution for each class, with Class-specific Mean Vector and Common Co-Variance matrix. Uses Bayes' Theorem for Classification
+3. **Linear Discriminant Analysis :** Assumes Multivariate Gaussian distribution for each class, with Class-specific Mean Vector and Common Co-Variance matrix. Uses Bayes Theorem for Classification
 4. **Random Forest :** Extension of Bagging Model, with Predictor sub-set resampling at every split. Reduction in Variance is obtained by de-correlating the trees
-5. **Support Vector Machines :** One of the best "out of the box" classifiers. Uses Maximum Margin Classifier with separating hyperplane. SVM uses kernels to enlarge feature space. Only "Support Vectors" participate in Classification
-6. **Boosting :** Statistical Learning method that learns slowly by fitting small trees to the residuals and Applying weights. Doesn't use Bootstrap Sampling. Each tree depends upon previously grown tree
+5. **Support Vector Machines :** One of the best out-of-the-box classifiers. Uses Maximum Margin Classifier with separating hyperplane. SVM uses kernels to enlarge feature space. Only Support-Vectors participate in Classification
+6. **Boosting :** Statistical Learning method that learns slowly by fitting small trees to the residuals and Applying weights. Does not use Bootstrap Sampling. Each tree depends upon previously grown tree
 
 ### Single Tree Model
 
@@ -62,7 +62,7 @@ save(tree.model,file="treemodel.rda")
 
 ```
 
-Here's how the tree looks like,
+This is how the tree looks like,
 
 ```{r printTree, fig.height=3, fig.width=6,message=FALSE}
 library(rattle)
@@ -86,7 +86,7 @@ accTreeModel <- round(confusionMatrix(predTree, validation$classe)$overall[[1]]*
 errTreeModel <- round(100-accTreeModel,2)
 ```
 
-The confusion matrix shows **`r accTreeModel`%** accuracy. Out of Sample error is **`r errTreeModel`%**. The "Out of Sample" error rate is calculated as **(100 - Accuracy)**. We can definitely do better.
+The confusion matrix shows **`r accTreeModel`%** accuracy. Out of Sample error is **`r errTreeModel`%**. The **Out of Sample** error rate is calculated as **(100 - Accuracy)**. We can definitely do better.
 
 ### Single Tree Model with Repeated Cross-Validation
 
@@ -142,12 +142,12 @@ accLdaModel <- round(confusionMatrix(predLDA, validation$classe)$overall[[1]]*10
 errLdaModel <- round(100-accLdaModel,2)
 ```
 
-The confusion matrix shows **`r accLdaModel`%** accuracy. Out of Sample error is **`r errLdaModel`%**. So Cross-Validated SingleTree model actually did better. Let's continue exploring other models. 
+The confusion matrix shows **`r accLdaModel`%** accuracy. Out of Sample error is **`r errLdaModel`%**. So Cross-Validated SingleTree model actually did better. Let us continue exploring other models. 
 
 
 ### Random Forest
 
-Let's apply **10 fold cross-validation** here,
+Let us apply **10 fold cross-validation** here,
 
 ```{r rfModel,eval=FALSE}
 rf.model <- train(classe ~ ., method="rf",
@@ -157,7 +157,7 @@ save(rf.model,file="rfmodelcv.rda")
 
 ```
 
-Let's see how the model looks,
+Let us see how the model looks,
 
 ```{r seeRFmodel}
 load("rfmodelcv.rda")
@@ -165,7 +165,7 @@ rf.model
 
 ```
 
-Let's plot the **Variable Importance** now,
+Let us plot the **Variable Importance** now,
 
 ```{r seeRFmodelVarImp,message=FALSE,fig.height=4, fig.width=6}
 plot(varImp(rf.model),top=10,main="Figure 3 : Variable Importance")
@@ -174,7 +174,7 @@ plot(varImp(rf.model),top=10,main="Figure 3 : Variable Importance")
 
 We see the **Top 10** most important variables used by this model. 
 
-Let's use this model against **validation** data-set,
+Let us use this model against **validation** data-set,
 
 ```{r predRFModel,message=FALSE}
 predRF <- predict(rf.model,validation)
@@ -212,7 +212,7 @@ svm.model
 
 ```
 
-Now let's apply this model to **validation** data-set,
+Now let us apply this model to **validation** data-set,
 
 ```{r predSVMmodel,message=FALSE}
 library (e1071)
@@ -243,7 +243,7 @@ save(boost.model,file="boostmodel.rda")
 
 Model uses **n.trees = 150, interaction.depth = 3, shrinkage = 0.1 and n.minobsinnode = 10**.
 
-Now let's apply this model to **validation** data-set,
+Now let us apply this model to **validation** data-set,
 
 ```{r predBoostModel,message=FALSE}
 load("boostmodel.rda")
@@ -263,7 +263,7 @@ The confusion matrix shows **`r accBoostModel`%** accuracy. Out of Sample error 
 
 ### Selecting the FINAL MODEL
 
-Let's plot ROC curves for all models together.
+Let us plot ROC curves for all models together.
 
 ```{r plotROCcurves,message=FALSE,fig.height=5, fig.width=5,results='hide'}
 library(pROC)
@@ -310,7 +310,7 @@ It is observed that our final model performed **exceptionally well** on **testin
 
 ### Conclusion
 
-Human Activity Recognition - **HAR** - has emerged as a key research area in the last few years. Based on exercise execution method of participants, it is now possible to **Classify** their exercise execution **Quality**. This **How Well** approach can provide useful information to a large variety of applications, such as "sports training".
+Human Activity Recognition - **HAR** - has emerged as a key research area in the last few years. Based on exercise execution method of participants, it is now possible to **Classify** their exercise execution **Quality**. This **How Well** approach can provide useful information to a large variety of applications, such as **sports training**.
 
 ### References
 
