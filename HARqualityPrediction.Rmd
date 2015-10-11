@@ -1,5 +1,6 @@
 ---
-output: html_document
+output:
+  html_document: default
 ---
 
 ## Machine Learning Project : Predicting Wellness factor of Human Activity Recognition research 
@@ -10,7 +11,7 @@ Using devices such as **Jawbone Up, Nike FuelBand, and Fitbit** it is now possib
 
 ### Tidying the Data & Exploratory Data Analysis
 
-We first start by loadng the data.
+We first start by loading the data.
 
 
 ```{r loadData,message=FALSE}
